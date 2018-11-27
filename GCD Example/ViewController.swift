@@ -19,8 +19,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         GCD_ImageDownload()
         
+        serial_Queue()
         
         
+        concurrent_Queue()
     }
     
     
@@ -41,6 +43,46 @@ class ViewController: UIViewController {
                 
             }
             
+        }
+        
+    }
+    
+    
+    //MARK: Serial Queue
+    func serial_Queue() {
+        
+        let serialQueue = DispatchQueue(label: "com.target.test" ,qos:.default)
+        
+        serialQueue.async {
+            for i in 0...10 {
+                print("Serial Queue with Async = \(i)")
+            }
+        }
+        
+        serialQueue.sync {
+            
+            for i in 20...30 {
+                print("Serial Queue With sync = \(i)")
+            }
+        }
+        
+    }
+    
+    //MARK: Concurrent Queue
+    func concurrent_Queue()  {
+        
+        let concurrentQueue = DispatchQueue(label:"com.trest.concurrent",qos:.default,attributes:.concurrent)
+        
+        concurrentQueue.async {
+            for i in 0...10 {
+                print("Concurrent Queue with Async = \(i)")
+            }
+        }
+        
+        concurrentQueue.sync {
+            for i in 20...30 {
+                print("Concurrent Queue With Sync = \(i)")
+            }
         }
         
     }
